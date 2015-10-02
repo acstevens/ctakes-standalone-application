@@ -21,10 +21,18 @@ mvn clean package assembly:single
 * Run excutable
 ```
 cd target/ctakes-standalone-application-*-bin/ctakes-standalone-application-*/
+```
+For Unix
+```
 sh startup.sh  --text "diabetes"
 ```
+For Windows
+```
+startup.bat  --text "diabetes"
+```
+
 Command line options:
-    * --help: displays the help text
-    * --inputfile file: file containing text to annotate
-    * --text text: text to annotate
-    * --outputformat format: format is either "sentence" or "text".  Sentence will display the results along side of the original sentence(s).  Text will display the results one on each line.  	
+ * --help: displays the help text
+ * --inputfile file: file containing text to annotate
+ * --text text: text to annotate
+ * --outputformat format: format is either "sentence" or "text".  Sentence will display the results along side of the original sentence(s).  Text will display the results one on each line.  	

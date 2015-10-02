@@ -1,1 +1,1 @@
-java -cp ".:./*:lib/*" com.sentimetrix.ctakes.application.CTakesApp %*
+java -Xmx512m -cp ".;./*;lib/*" com.sentimetrix.ctakes.application.CTakesApp %*
