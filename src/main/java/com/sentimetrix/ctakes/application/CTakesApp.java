@@ -12,15 +12,20 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
 import org.apache.uima.jcas.JCas;
 
+import com.sentimetrix.ctakes.io.CtakesFileWriter;
+import com.sentimetrix.ctakes.pipeline.PipelineEnum;
 import com.sentimetrix.ctakes.service.ClinicalEntityRecognizer;
+import com.sentimetrix.ctakes.service.OutputEnum;
 
 public class CTakesApp 
 {
 //	private static final Logger LOGGER = Logger.getLogger(CTakesApp.class);
-	private static final String CMD_OPT_HELP = "help";
-	private static final String CMD_OPT_INPUT_FILE = "inputfile";
-	private static final String CMD_OPT_TEXT = "text";
-	private static final String CMD_OPT_OUTPUT_FORMAT = "outputformat";
+	private static final String CMD_OPT_HELP				= "help";
+	private static final String CMD_OPT_INPUT_FILE			= "inputfile";
+	private static final String CMD_OPT_TEXT				= "text";
+	private static final String CMD_OPT_OUTPUT_FILE			= "outputfile";
+	private static final String CMD_OPT_OUTPUT_FORMAT		= "outputformat";
+	private static final String CMD_OPT_PIPELINE_TYPE		= "pipeline";
 	
 	protected static void printHelp(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
@@ -64,6 +69,24 @@ public class CTakesApp
 				.create("of")
 		);
 
+		options.addOption(
+			OptionBuilder
+				.withLongOpt(CMD_OPT_PIPELINE_TYPE)
+				.withDescription("Pipeline type")
+				.hasArg()
+				.withArgName("pipeline")
+				.create("p")
+		);
+
+		options.addOption(
+			OptionBuilder
+				.withLongOpt(CMD_OPT_OUTPUT_FILE)
+				.withDescription("Output File")
+				.hasArg()
+				.withArgName("outfile")
+				.create("of")
+		);
+
 		return options;
 	}
 
@@ -97,20 +120,37 @@ public class CTakesApp
         	text = cmd.getOptionValue(CMD_OPT_TEXT);
         }
         
+        String pipelineType = "fast";
+        if (cmd.hasOption(CMD_OPT_PIPELINE_TYPE)) {
+            pipelineType = cmd.getOptionValue(CMD_OPT_PIPELINE_TYPE);
+        }
+
         String outputFormat = "sentence";
         if (cmd.hasOption(CMD_OPT_OUTPUT_FORMAT)) {
         	outputFormat = cmd.getOptionValue(CMD_OPT_OUTPUT_FORMAT);
         }
 
+        String outfilename = null;
+        if (cmd.hasOption(CMD_OPT_OUTPUT_FILE)) {
+            outfilename = cmd.getOptionValue(CMD_OPT_OUTPUT_FILE);
+            if("json".equals(outputFormat)) {
+                outfilename += ".json";
+            } else {
+                outfilename += ".txt";
+            }
+        }
+
+
         if (!text.isEmpty()) {
-	    	ClinicalEntityRecognizer cer = new ClinicalEntityRecognizer();
-	    	JCas jcas = cer.process(text);
-	    	
-	    	if ("sentence".equals(outputFormat)) {
-		    	System.out.println(cer.formatResultsSentence(jcas));	    		
-	    	} else {
-		    	System.out.println(cer.formatResultsText(jcas));	    		
-	    	}
+            ClinicalEntityRecognizer cer = new ClinicalEntityRecognizer(PipelineEnum.valueOf(pipelineType.toUpperCase()));
+	        JCas jcas = cer.process(text);
+	        String results = cer.format(OutputEnum.valueOf(outputFormat.toUpperCase()), jcas);
+	        if (outfilename == null) {
+	            System.out.println(results);
+	        } else {
+	            CtakesFileWriter writer = new CtakesFileWriter(outfilename);
+	            writer.write(results);
+	        }
         } else {
         	System.err.println("no input text supplied");
         }

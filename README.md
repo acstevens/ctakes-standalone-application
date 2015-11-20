@@ -15,7 +15,7 @@ git clone https://github.com/acstevens/ctakes-standalone-application
 * Build code
 ```
 cd ctakes-standalone-application
-mvn clean package assembly:single
+mvn -Dmaven.test.skip=true clean package assembly:single
 ```
 
 * Run excutable
@@ -34,5 +34,10 @@ startup.bat  --text "diabetes"
 Command line options:
  * --help: displays the help text
  * --inputfile file: file containing text to annotate
+ * --outputfile file: file to write the results to
  * --text text: text to annotate
- * --outputformat format: format is either "sentence" or "text".  Sentence will display the results along side of the original sentence(s).  Text will display the results one on each line.  	
+ * --pipeline ["default", "fast"]
+ * --outputformat ["sentence", "text", "json"]:  'sentence' will display the results along side of the original sentence(s).  'text' will display the results for one entity on a single line.  'json' will display the results in a json array.   	
+
+If using the "default" pipeline you need to supply a username and password to use the UMLS dictionary.
+Modify the start script with those values.
