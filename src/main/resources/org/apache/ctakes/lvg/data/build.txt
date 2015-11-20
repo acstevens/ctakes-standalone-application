@@ -1,0 +1,9 @@
+#------------------------------------------------------------
+# This file indicates the information of this build
+#------------------------------------------------------------
+- Time: 11/29/07, 10:41:27 AM
+
+- SCRs: 1 - 40
+
+- Notes:
+* Official release for lvg.2008
