@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.apache.ctakes.core.cc.pretty.SemanticGroup;
 import org.apache.ctakes.core.cc.pretty.plaintext.PrettyTextWriter;
-import org.apache.ctakes.core.util.IdentifiedAnnotationUtil;
 import org.apache.ctakes.typesystem.type.constants.CONST;
 import org.apache.ctakes.typesystem.type.refsem.UmlsConcept;
 import org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation;
@@ -33,6 +32,7 @@ import com.google.gson.Gson;
 import com.sentimetrix.ctakes.application.model.Entity;
 import com.sentimetrix.ctakes.pipeline.PipelineFactory;
 import com.sentimetrix.ctakes.pipeline.PipelineEnum;
+import com.sentimetrix.ctakes.util.IdentifiedAnnotationUtil;
 
 public class ClinicalEntityRecognizer {
 	private static final Logger LOGGER = Logger.getLogger(ClinicalEntityRecognizer.class);
