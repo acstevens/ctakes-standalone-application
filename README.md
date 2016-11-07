@@ -5,9 +5,10 @@ This is a maven project that builds an application integrated with cTAKES.  One 
 * cTakes
 * Maven
 * Java
+* git & git-lfs
 
 ## How to Run
-* Ensure Java, Maven and Git is installed
+* Ensure Java, Maven, Git and Git Large File Store is installed
 * Git clone project
 ```
 git clone https://github.com/acstevens/ctakes-standalone-application
